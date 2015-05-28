@@ -1,55 +1,82 @@
-""" Settings
+set fileencodings=utf-8
 set encoding=utf-8
-set ffs=unix,dos,mac "Default file types
-set nocompatible " Don't be compatible with vi
-set hidden " Allow unsaved Files
-let mapleader="," " change the mapleader to ,
 
+set noswapfile
 
-""" Init Vundle
-filetype off                   " required!
+set nocompatible              " be iMproved
+filetype off                  " required!
 
-set rtp+=~/.vim/bundle/vundle/
+set rtp+=~/.vim/bundle/Vundle.vim/
+
 call vundle#rc()
 
 " let Vundle manage Vundle
 " required! 
-Plugin 'gmarik/vundle'
+Plugin 'gmarik/Vundle.vim'
 
-" Plugins:
+" My bundles here:
+"
+" original repos on GitHub
 "Plugin 'Valloric/YouCompleteMe'
+Plugin 'Shougo/neocomplete.vim'
 Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
-Plugin 'bufkill.vim'
-" Plugin 'taglist.vim'
-Plugin 'jmcantrell/vim-virtualenv'
-Plugin 'miripiruni/CSScomb-for-Vim'
-Plugin 'kien/ctrlp.vim'
-Plugin 'othree/html5.vim'
-Plugin 'wookiehangover/jshint.vim'
+Plugin 'tpope/vim-fugitive'
+Plugin 'airblade/vim-gitgutter'
+Plugin 'Lokaltog/vim-easymotion'
+Plugin 'bling/vim-airline'
+Plugin 'rstacruz/sparkup', {'rtp': 'vim'}
 Plugin 'sjbach/lusty'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'scrooloose/nerdtree'
-"Plugin 'klen/python-mode'
-Plugin 'kchmck/vim-coffee-script'
-Plugin 'tpope/vim-fugitive'
-Plugin 'jakar/vim-json'
-Plugin 'jcf/vim-latex'
-Plugin 'tpope/vim-surround'
+Plugin 'scrooloose/syntastic'
+Plugin 'bufkill.vim'
+Plugin 'miripiruni/CSScomb-for-Vim'
+Plugin 'kien/ctrlp.vim'
+Plugin 'othree/html5.vim'
 Plugin 'sukima/xmledit'
-Plugin 'tpope/vim-abolish'
-Plugin 'tpope/vim-repeat'
-Plugin 'mattn/emmet-vim'
 Plugin 'Raimondi/delimitMate'
+Plugin 'joonty/vim-phpqa'
+"Plugin 'joonty/vdebug'
+Plugin 'mattn/emmet-vim'
+Plugin 'groenewege/vim-less'
+Plugin 'editorconfig/editorconfig-vim'
+"Plugin 'wookiehangover/jshint.vim'
+Plugin 'tpope/vim-surround'
+Plugin 'tpope/vim-abolish'
 Plugin 'tomtom/tlib_vim'
 Plugin 'MarcWeber/vim-addon-mw-utils'
+Plugin 'fholgado/minibufexpl.vim'
+Plugin 'majutsushi/tagbar'
+Plugin 'xolox/vim-misc'
+Plugin 'xolox/vim-easytags'
+Plugin 'xolox/vim-session'
+" Plugin 'spf13/PIV' " PHP in VIM
+" Colorschemes
 Plugin 'nanotech/jellybeans.vim'
+Plugin 'sickill/vim-monokai'
 Plugin 'altercation/vim-colors-solarized'
-" Plugin 'garbas/vim-snipmate'
+Plugin 'Lokaltog/vim-distinguished'
+Plugin 'morhetz/gruvbox'
+Plugin 'Bogdanp/github.vim'
+" vim-scripts repos
+Plugin 'L9'
+Plugin 'jelera/vim-javascript-syntax'
+"Plugin 'javascript.vim'
+Plugin 'pangloss/vim-javascript'
+Plugin 'php.vim'
+"Plugin 'FuzzyFinder'
+" non-GitHub repos
+"Plugin 'git://git.wincent.com/command-t.git'
 
-""" Remaps
-:command W w " make :W map to :w
-:command Wq wq " make :Wq map to :wq
+"Allow unsaved Files
+set hidden
+
+" change the mapleader to ,
+let mapleader=","
+
+" make :W map to :w
+:command! W w
 
 " Quickly edit/reload the vimrc file
 nmap <silent> <leader>ev :e $MYVIMRC<CR>
@@ -64,90 +91,73 @@ set copyindent    " copy the previous indentation on autoindenting
 set cindent       " apply the C indenting rules
 set nosmartindent
 set number        " always show line numbers
-set numberwidth=1 " Use 1 col + 1 space for numbers
+set cursorline    " highlight current line
 set shiftwidth=4  " number of spaces to use for autoindenting
 set shiftround    " use multiple of shiftwidth when indenting with '<' and '>'
 set showmatch     " set show matching parenthesis
 set matchtime=2   " For .2 seconds
-" set matchpairs+=<:> " specially for html
+" set matchpairs+=<:> 
+                  " specially for html
 set ignorecase    " ignore case when searching
-set smartcase     " ignore case if search pattern is all lowercase, case-sensitive otherwise
-set smarttab      " insert tabs on the start of a line according to shiftwidth, not tabstop
+set smartcase     " ignore case if search pattern is all lowercase,
+                  "    case-sensitive otherwise
+set smarttab      " insert tabs on the start of a line according to
+                  "    shiftwidth, not tabstop
 set hlsearch      " highlight search terms
 set incsearch     " show search matches as you type
-set cursorline    " highlight current line
-set ttyfast
-set scrolloff=3 " Keep 3 lines below and above the cursor
+set expandtab     " spaces instead of tabs
+filetype plugin indent on     " required!
 
-" Bad whitespace
-highlight BadWhitespace ctermbg=red guibg=red
-" Display tabs at the beginning of a line in Python mode as bad.
-au BufRead,BufNewFile *.py,*.pyw match BadWhitespace /^\t\+/
-" Make trailing whitespace be flagged as bad.
-au BufRead,BufNewFile *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/
+set visualbell
+
+if has("gui_running")
+endif
 
 " Autoload the plugin files for filetypes
 filetype plugin on
 
-"" Skip this file unless we have +eval
-if 1
-
-"""" Movement
-" work more logically with wrapped lines
-noremap j gj
-noremap k gk
-
 if has("gui_running")
-syntax enable
-" set t_Co=256
-set clipboard=autoselect " 
-set guioptions-=T
-set guifont=Consolas:h12
-"colorscheme wombat "or blackboard
-"colorscheme desertEx
-" standard color scheme
-colorscheme jellybeans
+    syntax enable
+    if has("gui_gtk2")
+        set guifont=Source\ Code\ Pro\ for\ Powerline\ Medium\ 9
+        "set guifont=Ubuntu\ Mono\ derivative\ Powerline\ 10
+        set lines=50 columns=200 
+    elseif has("gui_macvim")
+        set guifont=Menlo\ Regular:h14
+    elseif has("gui_win32")
+        set guifont=Consolas:h11
+        set lines=50 columns=200 
+        "set guifont=SourceCodePro:h10:cANSI
+    endif
+    " set t_Co=256
+    set hlsearch " Highlight
+    set clipboard=autoselect " 
+    set guioptions-=T
+    " set guifont=Consolas:h10
+    set nu
+    set background=dark
+    "colorscheme wombat "or blackboard
+    "colorscheme desertEx
+    " standard color scheme
+    "colorscheme monokai
+    "colorscheme distinguished
+    "colorscheme solarized
+    colorscheme gruvbox
+    "colorscheme jellybeans
+    " filetype dependent colors (which don't seem to work...)
+    " au BufEnter,Filetype python colorscheme desertEx
+    " au BufEnter,Filetype javascript colorscheme molokai
+    " au BufEnter,Filetype css,scss colorscheme wombat
+    " au BufEnter,Filetype html colorscheme wombat
 else
-colorscheme desert
+    colorscheme desert
 endif
 
-"""" Messages, Info, Status
-set shortmess+=a " Use [+] [RO] [w] for modified, read-only, modified
-set showcmd " Display what command is waiting for an operator
-set laststatus=2 " Always show statusline, even if only 1 window
-set report=0 " Notify me whenever any lines have changed
-set confirm " Y-N-C prompt if closing with unsaved changes
-set vb t_vb= " Disable visual bell! I hate that flashing.
-set statusline=%<%f%m%r%y%=Char:\ %b\ 0x%B\ Line:\ %l/%L,\ Column:\ %c%V\ %P
-
-"""" Coding
-set history=100 " 100 Lines of history
-set showfulltag " Show more information while completing tags
-filetype plugin indent on " Let filetype plugins indent for me
-set tags=$HOME/.vim/tags
+set statusline=%<%f%m%r%y%{&ff}%=Char:\ %b\ 0x%B\ Line:\ %l/%L,\ Column:\ %c%V\ %P
 
 """"" Folding
 set foldmethod=indent " By default, use indent to determine folds
 set foldlevelstart=99 " All folds open by default
-
-"""" Command Line
-set wildmenu " Autocomplete features in the status bar
-set wildmode=longest:full,list
-set wildignore=*.o,*.obj,*.bak,*.exe,*.py[co],*.swp,*~,*.pyc,*.jpg,.svn,_generated_static/**,node_modules
-
-" Add the virtualenv's site-packages to vim path
-if has('python')
-py << EOF
-import os.path
-import sys
-import vim
-if 'VIRTUAL_ENV' in os.environ:
-	project_base_dir = os.environ['VIRTUAL_ENV']
-	sys.path.insert(0, project_base_dir)
-	activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
-	execfile(activate_this, dict(__file__=activate_this))
-EOF
-endif
 
 " <space> toggles folds opened and closed
 nnoremap <space> za
@@ -155,59 +165,153 @@ nnoremap <space> za
 " <space> in visual mode creates a fold over the marked range
 vnoremap <space> zf
 
+" work more logically with wrapped lines
+noremap j gj
+noremap k gk
 
-"""""""""""""""""""""""""""""""""
-" Filetype settings
-"""""""""""""""""""""""""""""""""
+nnoremap <C-l> :bn<CR>
+nnoremap <C-h> :bp<CR>
 
-" Indentation for various Fileformats
-au BufRead,BufNewFile *.py set ai sw=4 sts=4 et tw=0 " Pythonfiles with: autoindentation, shiftwidth of 4 spaces, 4 spaces per tab,
-au BufRead,BufNewFile *.js set ai sw=4 sts=4 et tw=0 "						expanding tabs and a textwidth of 72 characters. 
-au BufRead,BufNewFile *.coffee set ai sw=4 sts=4 et tw=0 
-au BufRead,BufNewFile *.html set ai sw=4 sts=4 et tw=0
-au BufRead,BufNewFile *.json set ai sw=4 sts=4 et tw=0
-au BufNewFile *.html,*.py,*.pyw,*.c,*.h,*.json set fileformat=unix " setting EOL format
+" Shortcuts
+noremap <F9> :NERDTreeToggle<CR>
+nnoremap <C-j><C-l> :LustyJuggler<CR>
+nmap <F10> :TagbarToggle<CR>
 
-" Latex
-let g:tex_flavor='latex'
-let g:Imap_UsePlaceHolders = 0 " remove Placeholders <++>
-au BufRead,BufNewFile *.tex set ai sw=2 sts=2 et tw=0 "						expanding tabs and a textwidth of 72 characters. 
-au BufRead,BufNewFile *.tex set iskeyword+=:
+" Recognize markdown files
+autocmd BufNewFile,BufRead *.md set filetype=markdown
 
-nnoremap <silent> <leader>c :!clear;python %<CR>
+" PLUGINS
 
-"""""""""""""""""""""""""""""""""
-" Plugin settings
-"""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""
+" ctrlp
 
-" python-mode
-let python_highlight_all=1
-let python_highlight_indents=0
-syntax on
-" let pymode_lint_write=0 "disable linting because of errors caused by wrong python version in MacVim
-let g:pymode_lint_ignore = "E501" " ignore too long lines in python
+let g:ctrlp_custom_ignore = {
+            \ 'dir': '\v(node_modules|vendor|build|dist)',
+            \ }
 
-" delimitMate
-let delimitMate_matchpairs = "(:),[:],{:}"
+""""""""""""""""""""""""""""""""
+" phpqa
+let g:phpqa_messdetector_autorun = 0
+let g:phpqa_codesniffer_autorun = 0
+"let g:phpqa_codesniffer_args = "--standard=WordPress"
 
-" taglist
-nmap <F4> :TlistToggle<CR>
 
-" NERDTreeToggle
-nmap <F8> :NERDTreeToggle<CR>
+""""""""""""""""""""""""""""""""
+" ultisnips
+let g:UltiSnipsListSnippets="<C-Tab>"
+let g:UltiSnipsExpandTrigger="<C-Space>"
+let g:ultisnips_author="Philipp Kreutzer <kreutzer@bucs-it.de>"
 
-" LustyJuggler 
-nmap <c-j><c-l> :LustyJuggler<CR>
 
-" CtrlP
-let g:ctrlp_map = '<D-t>'
+""""""""""""""""""""""""""""""""
+" neocomplete
+" Disable AutoComplPop.
+let g:acp_enableAtStartup = 0
+let g:neocomplete#enable_at_startup = 1
+let g:neocomplete#enable_smart_case = 1
+let g:neocomplete#sources#syntax#min_keyword_length = 2
+let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
 
-" UlitiSnips
-" reset ultisnip shortcuts, because of youcompleteme
-let g:UltiSnipsExpandTrigger="<c-j>"
-let g:UltiSnipsJumpForwardTrigger="<c-j>"
-let g:UltiSnipsJumpBackwardTrigger="<c-k>"
+" Define dictionary.
+let g:neocomplete#sources#dictionary#dictionaries = {
+    \ 'default' : '',
+    \ 'vimshell' : $HOME.'/.vimshell_hist',
+    \ 'scheme' : $HOME.'/.gosh_completions'
+    \ }
 
-" xmledit
-let g:xmledit_enable_html = 1
+" Define keyword.
+if !exists('g:neocomplete#keyword_patterns')
+    let g:neocomplete#keyword_patterns = {}
 endif
+let g:neocomplete#keyword_patterns['default'] = '\h\w*'
+
+" Plugin key-mappings.
+inoremap <expr><C-g>     neocomplete#undo_completion()
+inoremap <expr><C-l>     neocomplete#complete_common_string()
+
+" Recommended key-mappings.
+" <CR>: close popup and save indent.
+"inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+"function! s:my_cr_function()
+"  return neocomplete#close_popup() . "\<CR>"
+"  " For no inserting <CR> key.
+"  "return pumvisible() ? neocomplete#close_popup() : "\<CR>"
+"endfunction
+" <TAB>: completion.
+inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+inoremap <expr><S-TAB>  pumvisible() ? "\<C-p>" : "\<S-TAB>"
+" <C-h>, <BS>: close popup and delete backword char.
+inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
+inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
+inoremap <expr><C-y>  neocomplete#close_popup()
+inoremap <expr><C-e>  neocomplete#cancel_popup()
+" Close popup by <Space>.
+"inoremap <expr><Space> pumvisible() ? neocomplete#close_popup() : "\<Space>"
+inoremap <expr><CR> pumvisible() ? neocomplete#close_popup() : "\<CR>"
+
+" For cursor moving in insert mode(Not recommended)
+"inoremap <expr><Left>  neocomplete#close_popup() . "\<Left>"
+"inoremap <expr><Right> neocomplete#close_popup() . "\<Right>"
+"inoremap <expr><Up>    neocomplete#close_popup() . "\<Up>"
+"inoremap <expr><Down>  neocomplete#close_popup() . "\<Down>"
+" Or set this.
+"let g:neocomplete#enable_cursor_hold_i = 1
+" Or set this.
+"let g:neocomplete#enable_insert_char_pre = 1
+
+" AutoComplPop like behavior.
+"let g:neocomplete#enable_auto_select = 1
+
+" Shell like behavior(not recommended).
+"set completeopt+=longest
+"let g:neocomplete#enable_auto_select = 1
+"let g:neocomplete#disable_auto_complete = 1
+"inoremap <expr><TAB>  pumvisible() ? "\<Down>" : "\<C-x>\<C-u>"
+
+" Enable omni completion.
+autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+
+" Enable heavy omni completion.
+if !exists('g:neocomplete#sources#omni#input_patterns')
+  let g:neocomplete#sources#omni#input_patterns = {}
+endif
+"let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
+"let g:neocomplete#sources#omni#input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
+"let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
+
+""""""""""""""""""""""""""""""""
+" XML Edit
+let g:xmledit_enable_html = 1
+
+""""""""""""""""""""""""""""""""
+" Airline
+let g:airline_powerline_fonts = 1
+set laststatus=2
+
+""""""""""""""""""""""""""""""""
+" Emmet
+"inoremap <C-M> <C-Y>,
+
+
+""""""""""""""""""""""""""""""""
+" PIV
+let g:DisableAutoPHPFolding = 1
+
+""""""""""""""""""""""""""""""""
+" Syntastic
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+
+""""""""""""""""""""""""""""""""
+" Session
+let g:session_autoload = 'no'

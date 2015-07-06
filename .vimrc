@@ -123,7 +123,7 @@ if has("gui_running")
         "set guifont=Ubuntu\ Mono\ derivative\ Powerline\ 10
         set lines=50 columns=200 
     elseif has("gui_macvim")
-        set guifont=Menlo\ Regular:h14
+        set guifont=Source\ Code\ Pro:h11
     elseif has("gui_win32")
         set guifont=Consolas:h11
         set lines=50 columns=200 
@@ -289,7 +289,10 @@ let g:xmledit_enable_html = 1
 
 """"""""""""""""""""""""""""""""
 " Airline
-let g:airline_powerline_fonts = 1
+"let g:airline_powerline_fonts = 1
+let g:airline_theme='powerlineish'
+let g:airline_left_sep=''
+let g:airline_right_sep=''
 set laststatus=2
 
 """"""""""""""""""""""""""""""""
@@ -315,3 +318,4 @@ let g:syntastic_check_on_wq = 0
 """"""""""""""""""""""""""""""""
 " Session
 let g:session_autoload = 'no'
+let g:session_autosave = 'no'
